@@ -1,12 +1,24 @@
 {
-  "name": "Abdul",
-  "description": "Using AN Api",
-  "version": "1.0",
+  "name": "Discount Space!",
+  "description": "Discount Space! Buy Anything You Want!!!",
+  "version": "0.1.0",
   "manifest_version": 3,
-  "action":{
-      "default_popup":"index.html",
-      "default_icon":"logo.png"
-
+  "action": {
+    "default_title": "Discount Space!",
+    "default_popup": "index.html",
+    "default_icon": "logo.png"
   },
-  "chrome_url_override"
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "css": [
+        "content.css"
+      ]
+    }
+  ]
 }

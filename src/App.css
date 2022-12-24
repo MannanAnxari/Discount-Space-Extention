@@ -1,38 +1,667 @@
-.App {
-  text-align: center;
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: rgb(255, 255, 255);
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+:root {
+  --primary: #f26c25;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+html {
+  width: 372px;
+  height: 586px;
+}
+
+html,
+.tab-content {
+  overflow-x: hidden;
+} 
+
+.main-popup {
+  top: 0;
+  /* right: 2%; */
+  width: 100%;
+  min-height: 92vh;
+  opacity: 1;
+  /* background-color: white; */
+  /* overflow: scroll; */
+  /* display: none; */
+}
+
+.main-popup.show-popup {
+  opacity: 1;
+  display: unset;
+  animation: popup 1.25s ease;
+}
+
+.main-popup-coupon {
+  font-family: 'Poppins', sans-serif;
+  bottom: 2%;
+  width: 400px;
+  opacity: 0;
+  display: none;
+  overflow: scroll;
+  right: 2%;
+}
+
+#load_More,
+#viewAll {
+  /* display: none; */
+}
+
+.titleA {
+  text-decoration: none;
+}
+
+.titleA:hover {
+  color: #f26c25 !important;
+}
+
+.main-popup.show-coupon {
+  opacity: 1;
+  display: unset;
+  animation: popup 1.25s ease;
+}
+
+.main-popup-coupon.show-coupon {
+  opacity: 1;
+  animation: popup 1.25s ease;
+}
+
+@keyframes popup {
+  0% {
+    transform: translateY(100%);
+  }
+
+  100% {
+    transform: translateY(0%);
   }
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.main-popup .close,
+.main-popup-coupon .close {
+  top: 50%;
+  right: 4%;
+  transform: translateY(-50%);
+}
+
+[data-tab-content] {
+  display: none;
+}
+
+.active[data-tab-content] {
   display: flex;
-  flex-direction: column;
+}
+
+.cards.active[data-tab-content] {
+  display: block;
+}
+
+.coupon-content {
+  bottom: 5%;
+  right: 5%;
+}
+
+.form-control:focus {
+  border-color: #f26c25;
+}
+
+.popup-btn {
+  cursor: pointer;
+}
+
+.popup-btn.active,
+.popup-btn.active #Assets {
+  color: #f26c25;
+  display: flex;
   align-items: center;
+  position: relative;
+  fill: #f26c25;
+}
+
+.popup-btn.active::after {
+  content: '';
+  width: 100%;
+  position: absolute;
+  height: 2px;
+  background: #f26c25;
+  bottom: -16px;
+  left: 0;
+}
+
+.tabz .popup-btn.active::after {
+  content: '';
+  width: 100%;
+  position: absolute;
+  height: 2px;
+  background: #f26c25;
+  bottom: -1px;
+  left: 0;
+}
+
+
+
+.coupon-code-card {
+  background-color: #fff;
+  position: relative;
+  gap: 14px;
+  width: 100%;
+  /* border-block: 1px solid rgb(231, 231, 231); */
+  box-shadow: 0px 0rem 22px rgb(0 0 0 / 12%) !important
+}
+
+.mainHead {
+  /* border-bottom: 1px solid rgb(231, 231, 231); */
+  height: 86px;
+  box-shadow: 0px 0rem 22px rgb(0 0 0 / 12%) !important
+}
+
+.h-fx {
+  height: 86px;
+}
+
+.text-truncate-2 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+}
+
+.affLink svg :is(path, circle) {
+  transition: all .3s ease;
+}
+
+/* .affLink:hover svg circle{
+  transform: scale(1.05);
+} */
+.affLink:hover svg path {
+  transform: translate(2px, -4px) scale(1.075);
+}
+
+::-webkit-scrollbar {
+  background-color: transparent;
+  height: 50%;
+  width: 3px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #f26c25;
+}
+
+.cont {
+  padding: 1rem;
+}
+
+.mainHead .searchDeals {
+  border-radius: 12px;
+  background: #e7e7e7;
+  padding-inline: 10px;
+  display: flex;
+  gap: 6px;
+}
+
+.searchDeals .btn-main,
+#main_filter span,
+.selectMain select,
+#dropdownMenuButton1,
+.fs-smmm {
+  font-size: 12px !important;
+}
+
+/* 
+.coupon {
+  background: radial-gradient(circle at left top, transparent 10px, #ffffff 0) top right / 75% 60px no-repeat,
+      radial-gradient(circle at right top, transparent 10px, #ffffff 0) top left / 25% 60px no-repeat,
+      radial-gradient(circle at left bottom, transparent 10px, #ffffff 0) bottom right / 75% 60px no-repeat,
+      radial-gradient(circle at right bottom, transparent 10px, #ffffff 0) bottom left / 25% 60px no-repeat;
+  border-radius: 5px;
+  filter: drop-shadow(0 0 4px #aaa);
+}
+
+@media (max-width: 786px) {
+  .coupon {
+      background: radial-gradient(circle at left top, transparent 10px, #ffffff 0) top right / 75% 80px no-repeat,
+          radial-gradient(circle at right top, transparent 10px, #ffffff 0) top left / 25% 80px no-repeat,
+          radial-gradient(circle at left bottom, transparent 10px, #ffffff 0) bottom right / 75% 80px no-repeat,
+          radial-gradient(circle at right bottom, transparent 10px, #ffffff 0) bottom left / 25% 80px no-repeat;
+  }
+
+  .main-popup {
+      width: 336px;
+  }
+}
+
+.coupon-content span {
+  color: #949494;
+}
+
+.heading-cpn span,
+.cpn {
+  color: #f26c25 !important;
+} */
+.btn-main.outlined {
+  background: transparent;
+  color: black;
+  border-color: black;
+}
+
+.btn-main.outlined:hover {
+  background: transparent !important;
+}
+
+.tabs {
+  bottom: 0;
+  position: fixed;
+  width: 100%;
+  box-shadow: 0 0em 22px #d0d0d08a;
+  z-index: 9;
+  margin: 0;
+  background: white;
+  padding: 1em;
+  margin-left: -0.7em;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  color: #f26c25 !important;
+
+}
+
+.mainHead {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 2;
+  background: white;
+}
+
+#login {
+  height: 100vh !important;
+  width: 100vw !important;
+  position: absolute;
+  left: 0;
+}
+
+.home {
+  background: center/contain no-repeat url(./assets/banner.jpg);
+  background-size: 100%;
+  background-position: top center;
+  height: 156px;
+}
+
+.home h1 {
+  color: #195154;
+  font-size: 26px;
+}
+
+.para {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  color: #616161;
+  margin: 0 0 10px;
+}
+
+.paraLg {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 20px;
+  color: #195154;
+  margin: 14px 0 10px;
+}
+
+.parabdr {
+  font-size: 20px;
+  line-height: 20px;
+  color: #212121;
+  text-transform: uppercase;
+  /* border-block: 1px solid; */
+  padding: 10px 0px;
+  padding: 16px;
+  /* border-block: 1px solid rgb(231, 231, 231); */
+  /* box-shadow: 0px 0rem 22px rgb(0 0 0 / 12%) !important; */
+  background-color: rgb(255, 255, 255);
+}
+
+.fs-smm {
+  font-size: 18px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+}
+
+.items .itm img {
+  width: 32px;
+  height: 32px;
+}
+
+.items .itm {
+  /* border-block: 1px solid rgb(231, 231, 231); */
+  padding-block: 10px;
+  text-align: start;
+  padding-inline: 22px;
+  gap: 10px;
+  display: flex;
+}
+
+ul.tabz {
+  width: 100%;
+}
+
+li.tabz {
+  font-size: 12px;
+  font-weight: 500 !important;
+  padding: 0.75em 0;
+}
+
+.circleIcon-0-3-144 {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  border-radius: 30px;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  background-color: #ffbe9c;
+}
+
+.profile a {
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.profile h1 {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 20px;
+}
+
+.btn-main {
+  border-color: rgb(204, 75, 6);
+  cursor: pointer;
+  outline: none;
+  padding: 0px 16px;
+  box-shadow: none;
+  transition: all 0.2s ease 0s;
+  text-shadow: none;
+  user-select: none;
+  border-style: solid;
+  padding: 0.4em 1em;
+  border-width: 1px;
+  border-radius: 3px;
+  background-color: rgb(204, 75, 6);
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.btn-main:hover {
+  border-color: rgb(242, 108, 37) !important;
+  color: white !important;
+  background-color: rgb(242, 108, 37) !important;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.couponImg {
+  width: 34px;
+  height: 48px;
+  background-color: rgb(231, 231, 231);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  padding: 2px;
+  min-width: 48px;
+}
+
+.fs-12 {
+  font-size: 12px;
+}
+
+.couponCt strike {
+  font-size: 10px;
+}
+
+.text-main {
+  font-size: 12px;
+  color: #f26c25;
+}
+
+.couponCt {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.batchMain {
+  color: rgb(33, 33, 33);
+  display: inline-flex;
+  padding: 4px 8px 4px 4px;
+  line-height: 12px;
+  border-radius: 100px;
+  background-color: rgb(255, 244, 220);
+  cursor: pointer;
+}
+
+.labelSpn {
+  font-size: 12px;
+  font-weight: 400;
+  margin-left: 6px;
+}
+
+.coupon-logo {
+  width: 84px !important;
+  height: 84px;
+  text-align: center;
+  background: #e7e7e7;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-bottom: 4px;
+  padding: 8px;
+}
+
+.truncate {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+}
+
+input:focus {
+  outline: none;
+}
+
+.hrLine {
+  width: 100%;
+  text-align: center;
+  border-bottom: 1px solid #000;
+  line-height: 0.1em;
+  margin: 20px 0;
+}
+
+.fs-9 {
+  font-size: 12px;
+}
+
+.hrLineSpn {
+  background: white;
+  font-size: 14px;
+  padding: 0 10px;
+}
+
+.titleA {
+  text-decoration: none;
+}
+
+.titleA:hover {
+  color: #f26c25 !important;
+}
+
+
+:root {
+  --background-gradient: linear-gradient(30deg, #f39c12 30%, #f1c40f);
+  --gray: #34495e;
+  --darkgray: #2c3e50;
+}
+
+#search_low_price,
+#search_high_price {
+  padding-block: 4px;
+  border-radius: 0.7rem;
+  border-color: #f8964e;
+}
+
+#main_filter {
+  display: none;
+  text-align: left;
+}
+
+.selectMain select {
+  appearance: none;
+  outline: 0;
+  border: 0;
+  box-shadow: none;
+  flex: 1;
+  padding: 0 1em;
+  color: #fff;
+  background-color: #f8964e;
+  background-image: none;
+  cursor: pointer;
+}
+
+/* Remove IE arrow */
+.selectMain select::-ms-expand {
+  display: none;
+}
+
+/* Custom Select wrapper */
+.selectMain {
+  position: relative;
+  display: flex;
+  width: 100%;
+  border-radius: .7em;
+  overflow: hidden;
+}
+
+.selectMain select {
+  padding-block: 0.5rem;
+}
+
+/* Arrow */
+.selectMain::after {
+  content: '\25BC';
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0.5em 0.8rem;
+  background-color: #f57618;
+  transition: .25s all ease;
+  pointer-events: none;
+  color: white;
+}
+
+/* Transition */
+.selectMain:hover::after {
+  color: #eee;
+}
+
+#dropdownMenuButton1 {
+  background-color: #f8964e !important;
+  padding-block: 0.5rem;
+  color: white;
+  overflow: hidden;
+  border-radius: 0.7rem;
+}
+
+button#dropdownMenuButton1::after {
+  content: '\25BC';
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0.5em 0.8rem;
+  background-color: #f57618;
+  transition: .25s all ease;
+  pointer-events: none;
+  color: white;
+  border-width: 0px;
+  height: 100%;
+  border-top-right-radius: 0.7rem;
+  border-bottom-right-radius: 0.7rem;
+}
+
+
+
+
+.form-check-input:checked[type="checkbox"] {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10l3 3l6-6'/%3e%3c/svg%3e");
+}
+
+.form-check-input:checked {
+  background-color: var(--primary);
+  border-color: var(--primary);
+}
+
+.form-check-input:active {
+  filter: brightness(90%);
+}
+
+#searchedCoupons .btn.btn-main,#btttnn .btn.btn-main {
+
+  font-size: 12px;
+
+}
+
+.form-check-input:checked {
+  background-color: #eb8153;
+  border-color: #eb8153;
+}
+
+.form-check-input[type="checkbox"] {
+  border-radius: 12px;
+}
+
+.form-check .form-check-input {
+  float: left;
+  margin-left: -1.5em;
+}
+
+.form-check-input:focus {
+  border-color: #f5c0a9;
+  outline: 0;
+  box-shadow: 0 0 0 3px rgb(235 129 83 / 25%) !important;
+}
+
+.form-check-input {
+  top: 0.125rem;
+  border-width: 0.125rem;
+  width: 1.25rem;
+  height: 1.25rem;
+  border-color: #e7e7e7;
+}
+
+.form-check-input {
+  min-width: 12px;
+  height: 12px;
+  width: 12px;
+  margin-top: 0.25em;
+  vertical-align: top;
+  background-color: #f7f7f7;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  appearance: none;
+  color-adjust: exact;
+}
+
+.form-check-input:checked {
+  background-color: var(--primary);
+  border-color: var(--primary);
+}
+
+.coupon-code-card input[type="checkbox"] {
+  position: absolute;
+  top: 8px;
+  left: 8px;
 }
