@@ -16,12 +16,18 @@ $(document).ready(function () {
 
 
 $(document).ready(function () {
+    (function ($) {
+
+
+ 
+    })(jQuery);
     $('body').on('click', '#btttnn', function () {
         var markedCheckbox = document.querySelectorAll('input.urlz[type="checkbox"]:checked');
         for (var checkbox of markedCheckbox) {
             checkbox.parentNode.parentNode.querySelector("a.affLink").click();
-        } 
-    }) 
+        }
+    })
+
 });
 // $('body').ready(document, function () {
 //     // $('.parabdr').on('click', function () {

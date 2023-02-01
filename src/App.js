@@ -6,15 +6,22 @@ import { AppContext } from "./context/appContext";
 import HomeCoupons from './components/HomeCoupons';
 import SearchCoupon from './components/SearchCoupon';
 import Login from './components/Login';
+import CreateGoals from './components/CreateGoals';
 import Wishlist from './components/Wishlist';
 import config from './config';
+import { Toaster } from 'react-hot-toast';
+import { TagsHeader } from './components/TagsHeader';
 
 function App() {
   const [isUserLogin, setIsUserLogin] = useState(false);
   const [userName, setUserName] = useState("");
+  const [currentTag, setCurrentTag] = useState('');
+  const [userToken, setUserToken] = useState("");
   const [couponItems, setCouponItems] = useState([]);
   const [FilterCategory, setFilterCategory] = useState([]);
   const [FilterStore, setFilterStore] = useState([]);
+  const [heartedTags, setHeartedTags] = useState([]);
+  const [keywords, setKeywords] = useState([]);
 
   const [cookie, setCookie] = useState(getCookie("USER_ID"));
   const ref = useRef(null);
@@ -59,8 +66,30 @@ function App() {
       const response = await fetch(url);
       const json = await response.json();
       if (json.success) {
-        setIsUserLogin(true)
         setUserName(getCookie("USER_NAME"));
+        setUserToken(getCookie("USER_TOKEN"));
+        setIsUserLogin(true);
+
+
+        fetch(`https://discounts-space.com/public/api/web/getgoals`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ user_token: getCookie("USER_TOKEN") })
+        })
+          .then((response) => response.json())
+          .then((actualData) => {
+            setHeartedTags(JSON.parse(actualData[0].keywords));
+            console.log(actualData);
+          })
+        fetch(`https://discounts-space.com/public/api/web/keywords`)
+          .then((response) => response.json())
+          .then((actualData) => { setKeywords(actualData); })
+          .catch((err) => {
+          }
+          );
+
       }
       else {
         setIsUserLogin(false)
@@ -84,11 +113,13 @@ function App() {
     return null;
   }
 
+  const goals = useRef(null);
+ 
 
   return (
     <AppContext.Provider
       value={{
-        isUserLogin, userName, cookie, getCookie, setIsUserLogin, setUserName, setCookie, ref, setCouponItems, couponItems, setFilterCategory, FilterStore, setFilterStore, FilterCategory
+        isUserLogin, userName, cookie, getCookie, keywords, userToken, currentTag, setCurrentTag, heartedTags, setHeartedTags, setUserToken, setIsUserLogin, setUserName, setCookie, ref, setCouponItems, couponItems, setFilterCategory, FilterStore, setFilterStore, FilterCategory
       }}
     >
       <div className="App">
@@ -97,6 +128,7 @@ function App() {
             <div className="row h-100">
               <Header />
               <div className="col-12 w-100">
+                <Toaster />
                 <div className="row " style={{ 'paddingBottom': '3.5em', 'overflowY': 'auto' }}>
                   <div className="col-12">
                     <ul className="tabs d-flex justify-content-around ps-0 nav-tabs" role="tablist">
@@ -105,6 +137,9 @@ function App() {
                       </li>
                       <li className="tab text-uppercase fw-bold popup-btn nav-item list-unstyled nav-link" href="#profile" role="tab" aria-controls="profile" data-bs-toggle="tab">
                         Search
+                      </li>
+                      <li className="tab text-uppercase fw-bold popup-btn nav-item list-unstyled nav-link d-none" ref={goals} href="#goals" role="tab" aria-controls="goals" data-bs-toggle="tab">
+                        goals
                       </li>
                       {isUserLogin &&
                         <li
@@ -116,9 +151,8 @@ function App() {
                         className="tab text-uppercase fw-bold popup-btn nav-item list-unstyled nav-link" href="#login" id='userLogin' role="tab" aria-controls="login" data-bs-toggle="tab">
                         <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink"
                           width="28px" height="28px" viewBox="0 0 28 28" version="1.1">
-                          <title>icon_account</title>
-                          <desc>Created with Sketch.</desc>
-                          <defs />
+
+
                           <g id="styleguidelines" stroke="none" strokeWidth="1" fill="none"
                             fillRule="evenodd">
                             <g id="Assets" transform="translate(-554.000000, -903.000000)" fill="#292929">
@@ -139,49 +173,21 @@ function App() {
                   </div>
                   <div className="tab-content text-center">
                     <div className="active flex-column row text-start tab-pane" id="home" role="tabpanel" aria-labelledby="home-tab">
+                      <div className="col-12" style={{ 'marginTop': '86px' }}>
+                        {isUserLogin && heartedTags.length != 0 ?
+                          <TagsHeader /> : ""
+                        }
+                      </div>
                       <div className="col-12 cont p-0">
-                        <div className="row" style={{ 'marginTop': '86px' }}>
+                        <div className="row" >
                           <div className="col-12 home p-4">
                             <div className="row">
                               <div className="col-5"></div>
-                              {/* <div className="col-7">
-                                <h1> Welcome To <br /> Discount Space!</h1>
-                              </div> */}
                             </div>
                           </div>
                         </div>
                       </div>
-                      {/* <div className="col-12 bg-white py-3">
-                        <p className="paraLg">Look for the orange <svg xmlns="http://www.w3.org/2000/svg" width="22"
-                          height="22" viewBox="0 0 36 36" fill="none">
-                          <rect width="36" height="36" rx="3" fill="#FF7227" />
-                          <g opacity="0.9">
-                            <path fillRule="evenodd" clipRule="evenodd"
-                              d="M15.6024 11.9903C15.6411 11.027 15.8486 9.75098 16.4826 8.99625C17.376 7.94152 19.1883 8.11106 19.4862 9.63373C19.6284 10.3763 19.434 11.2874 19.0973 11.9254C18.3859 13.3181 17.065 14.4637 15.5762 14.8545C15.5893 13.9825 15.5768 12.8496 15.6024 11.9903ZM27.7453 25.4519C26.9941 26.3244 26.0365 27.001 25.117 26.9619C24.0815 26.9233 24.185 25.6341 24.185 24.9053V21.8457C24.1981 21.2599 24.1981 20.6742 24.1333 20.1012C23.9649 18.3958 22.9681 17.0289 21.091 16.8985C17.8292 16.768 16.5344 19.9322 15.5768 22.5354V16.8335C18.4246 16.3909 22.3727 14.7896 22.4893 11.1442C22.6837 4.9469 12.2627 4.72613 12.3014 12.5243C12.3144 13.1232 12.3144 14.2688 12.3144 14.8677C10.9161 14.6591 9.79018 12.6025 9.27215 11.3782C9.20734 11.2092 9.02647 11.1184 8.85815 11.1701C6.90316 11.6782 6.61879 13.748 7.9392 15.154C9.02647 16.3127 10.7609 16.7553 12.2883 16.8335C12.2757 21.3508 12.2757 24.1373 12.2757 28.6414C12.3406 29.2794 13.2078 29.449 13.7127 29.4616C14.282 29.4748 15.3436 29.3058 15.3954 28.5638C15.5768 26.3503 17.4533 19.8149 20.0037 19.8149C20.5991 19.8149 20.884 20.2052 20.884 20.7783V26.1031C20.884 28.3161 22.127 29.8002 24.392 29.8134C26.3988 29.8134 28.1593 28.1471 29.0396 26.233C29.3114 25.6214 28.1468 24.9961 27.7453 25.4519Z"
-                              fill="white" />
-                          </g>
-                        </svg> to save</p>
-                        <p className="para">
-                          If you’re shopping online and the <svg xmlns="http://www.w3.org/2000/svg" width="22"
-                            height="22" viewBox="0 0 36 36" fill="none">
-                            <rect width="36" height="36" rx="3" fill="#FF7227" />
-                            <g opacity="0.9">
-                              <path fillRule="evenodd" clipRule="evenodd"
-                                d="M15.6024 11.9903C15.6411 11.027 15.8486 9.75098 16.4826 8.99625C17.376 7.94152 19.1883 8.11106 19.4862 9.63373C19.6284 10.3763 19.434 11.2874 19.0973 11.9254C18.3859 13.3181 17.065 14.4637 15.5762 14.8545C15.5893 13.9825 15.5768 12.8496 15.6024 11.9903ZM27.7453 25.4519C26.9941 26.3244 26.0365 27.001 25.117 26.9619C24.0815 26.9233 24.185 25.6341 24.185 24.9053V21.8457C24.1981 21.2599 24.1981 20.6742 24.1333 20.1012C23.9649 18.3958 22.9681 17.0289 21.091 16.8985C17.8292 16.768 16.5344 19.9322 15.5768 22.5354V16.8335C18.4246 16.3909 22.3727 14.7896 22.4893 11.1442C22.6837 4.9469 12.2627 4.72613 12.3014 12.5243C12.3144 13.1232 12.3144 14.2688 12.3144 14.8677C10.9161 14.6591 9.79018 12.6025 9.27215 11.3782C9.20734 11.2092 9.02647 11.1184 8.85815 11.1701C6.90316 11.6782 6.61879 13.748 7.9392 15.154C9.02647 16.3127 10.7609 16.7553 12.2883 16.8335C12.2757 21.3508 12.2757 24.1373 12.2757 28.6414C12.3406 29.2794 13.2078 29.449 13.7127 29.4616C14.282 29.4748 15.3436 29.3058 15.3954 28.5638C15.5768 26.3503 17.4533 19.8149 20.0037 19.8149C20.5991 19.8149 20.884 20.2052 20.884 20.7783V26.1031C20.884 28.3161 22.127 29.8002 24.392 29.8134C26.3988 29.8134 28.1593 28.1471 29.0396 26.233C29.3114 25.6214 28.1468 24.9961 27.7453 25.4519Z"
-                                fill="white" />
-                            </g>
-                          </svg> is orange, that means you’re on one of
-                          the 40,000+ sites where Honey automatically tests coupons.
 
-                        </p>
-                        <p className="para">
-
-                          If the Honey is gray, that means you’re on an unsupported site.
-                        </p>
-                        <p className="para">
-                          For a demo of how Honey works on supported sites <a href="#"> click here.</a>
-                        </p>
-                      </div> */}
                       <div className="col-12 px-0">
                         <h3 className="parabdr mb-0">
                           Featured Coupons
@@ -197,7 +203,10 @@ function App() {
                       <Wishlist />
                     </div>
                     <div id="login" role="tabpanel" className="cards tab-pane fade accordion-item bg-white h-100" >
-                      <Login />
+                      <Login goals={goals} />
+                    </div>
+                    <div id="goals" role="tabpanel" className="cards tab-pane fade accordion-item h-100" aria-labelledby="goals-tab">
+                      <CreateGoals />
                     </div>
                   </div>
                 </div>

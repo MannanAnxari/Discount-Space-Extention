@@ -19,8 +19,9 @@ const Wishlist = () => {
             const response = await fetch(url);
             const json = await response.json();
             setData(json);
-            setSpinner(false);
-            console.log(data);
+            setSpinner(false); 
+            data.length === 0 && setErr("Your Wishlist is Empty!");
+
             setIsLoading(false);
         } catch (error) {
             console.log("Catch");
@@ -32,7 +33,6 @@ const Wishlist = () => {
     useEffect(() => {
         if (isUserLogin) {
             let url = `https://discounts-space.com/public/api/getSavedItemByCookies?token=${config.AUTH_TOKEN}&cookies=${cookie}`;
-            console.log(url);
             fetchHomeData(url);
             console.log("Eff");
         }

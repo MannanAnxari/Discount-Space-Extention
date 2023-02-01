@@ -7,11 +7,12 @@ import FAQ from '../assets/faq.svg';
 import User from '../assets/logout.svg';
 import Hi from '../assets/user.png';
 import config from '../config';
+import { FormOutlined } from '@ant-design/icons';
 
-const Login = () => {
+const Login = ({ goals }) => {
 
 
-    const { isUserLogin, userName, cookie, setIsUserLogin, setUserName, setCookie, getCookie } = useContext(AppContext);
+    const { isUserLogin, userName, setUserToken, cookie, setIsUserLogin, setUserName, setCookie, getCookie } = useContext(AppContext);
     const [email, setEmail] = useState("");
     const [userData, setUserData] = useState([{
         "email": "",
@@ -81,9 +82,11 @@ const Login = () => {
                 if (data.success != false) {
                     // console.log(cookiez); 
                     setCookieinLocal("USER_ID", cookiez);
+                    setCookieinLocal("USER_TOKEN", data.data.user_token);
                     setCookieinLocal("USER_NAME", data.data.name);
                     setCookieinLocal("IS_USER_LOGIN", true);
                     setCookie(getCookie("USER_ID"));
+                    setUserToken(getCookie("USER_TOKEN"));
                     setIsUserLogin(true);
                     setIsAccess(true);
                     setUserName(data.data.name);
@@ -171,6 +174,10 @@ const Login = () => {
                                     <div className="itm">
                                         <img src={Lock} alt="" />
                                         <a target={'_blank'} href={config.URL} className="fs-smm text-dark">Privacy</a>
+                                    </div>
+                                    <div className="itm align-items-center">
+                                        <FormOutlined />
+                                        <a onClick={() => goals.current.click()} className="fs-smm text-dark">Create Goals</a>
                                     </div>
                                     <div className="itm">
                                         <img src={About} alt="" />

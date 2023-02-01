@@ -98,6 +98,8 @@ const SearchCoupon = ({ value }) => {
         setIncItems(5);
         let url = `https://discounts-space.com/public/api/coupons?token=${config.AUTH_TOKEN}&type=&category_ids=${refCategory.current.length > 0 ? `[${refCategory.current}]` : ""}&store_id=${refStore.current.value}&discount=${refDiscount.current.value}&sort=${refSort.current.value}&min_price=${refMinPrice.current.value}&max_price=${refMaxPrice.current.value}&search=${valu}`;
         searchAndShow(url, isView);
+
+        console.log(url);
     }
 
     const handleViewMore = () => {
